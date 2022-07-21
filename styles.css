@@ -14,9 +14,14 @@ body {
 }
 
 .hangman {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    margin: 10px auto;
+}
 
-    /* Temporary for development */
-    border: 1px dashed red;
+.hangman > * {
+    position: absolute;
 }
 
 .shape {
@@ -27,18 +32,91 @@ body {
     width: 160px;
     height: 40px;
     border-bottom: none;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .stem {
-    width: 30px;
+    width: 10px;
     height: 350px;
     border-block: none;
     border-left: none;
+    right: 30%;
+    top: 8%;
 }
 
 .base {
     width: 300px;
-    height: 30px;
+    height: 10px;
+    border-inline: none;
+    border-bottom: none;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 1.9%;
+}
+
+.pieces {
+    width: 150px;
+    height: 300px;
+    left: 12%;
+    top: 10%;
+}
+
+.pieces > * {
+    position: absolute;
+}
+
+.head {
+    width: 60px;
+    height: 70px;
+    border-radius: 100%;
+    top: 1%;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.torso {
+    width: 10px;
+    height: 80px;
+    border-block: none;
+    border-right: none;
+    top: 24%;
+    left: 48%;
+}
+
+.left-arm {
+    width: 72px;
+    height: 10px;
+    top: 35%;
+    border-inline: none;
+    border-bottom: none;
+}
+
+.right-arm {
+    width: 72px;
+    height: 10px;
+    top: 35%;
+    right: 0;
+    border-inline: none;
+    border-bottom: none;
+}
+
+.left-leg {
+    width: 100px;
+    height: 10px;
+    top: 63%;
+    left: 0.5%;
+    transform: rotate(-60deg);
+    border-inline: none;
+    border-bottom: none;
+}
+
+.right-leg {
+    width: 100px;
+    height: 10px;
+    top: 63%;
+    left: 32.5%;
+    transform: rotate(60deg);
     border-inline: none;
     border-bottom: none;
 }
