@@ -17,6 +17,7 @@
     <!-- <link rel="manifest" href="my.webmanifest"> -->
 </head>
 <body>
+    <h1>Hangman</h1>
     <div class="hangman">
         <div class="shape top"></div>
         <div class="shape stem"></div>
@@ -29,6 +30,20 @@
             <div class="shape right-arm"></div>
             <div class="shape left-leg"></div>
             <div class="shape right-leg"></div>
+        </div>
+    </div>
+    <div class="panel">
+        <h2 class="selected-word">&mdash;</h2>
+        <div class="guess-prompt">
+            <label for="guess-textbox">You can guess a letter or a word:</label>
+            <input type="text" name="guess-textbox" id="guess-textbox">
+            <button type="button" name="submit">Submit</button>
+        </div>
+        <div class="guess-history">
+            <h3>Previous Guesses</h3>
+            <p class="guess-list">
+                <ul></ul>
+            </p>
         </div>
     </div>
     <script src="script.js"></script>

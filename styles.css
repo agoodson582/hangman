@@ -5,23 +5,42 @@
 }
 
 body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
     background-color: var(--primary-background-color);
-    margin: 0;
+    margin: 15px 0;
 }
 
 *, *::before, *::after {
     box-sizing: border-box;
 }
 
+body > * {
+    margin-inline: auto;
+}
+
 .hangman {
     position: relative;
     width: 400px;
-    height: 400px;
-    margin: 10px auto;
+    height: 340px;
+    margin-block: 75px 40px;
 }
 
 .hangman > * {
     position: absolute;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.selected-word {
+    letter-spacing: 10px;
+}
+
+.guess-prompt {
+    margin-bottom: 40px;
 }
 
 .shape {
@@ -36,9 +55,10 @@ body {
     transform: translateX(-50%);
 }
 
+
 .stem {
     width: 10px;
-    height: 350px;
+    height: 300px;
     border-block: none;
     border-left: none;
     right: 30%;
@@ -52,14 +72,14 @@ body {
     border-bottom: none;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 1.9%;
+    bottom: 0.6%;
 }
 
 .pieces {
     width: 150px;
-    height: 300px;
+    height: 250px;
     left: 12%;
-    top: 10%;
+    top: 13%;
 }
 
 .pieces > * {
@@ -80,14 +100,14 @@ body {
     height: 80px;
     border-block: none;
     border-right: none;
-    top: 24%;
+    top: 29%;
     left: 48%;
 }
 
 .left-arm {
     width: 72px;
     height: 10px;
-    top: 35%;
+    top: 40%;
     border-inline: none;
     border-bottom: none;
 }
@@ -95,7 +115,7 @@ body {
 .right-arm {
     width: 72px;
     height: 10px;
-    top: 35%;
+    top: 40%;
     right: 0;
     border-inline: none;
     border-bottom: none;
@@ -104,7 +124,7 @@ body {
 .left-leg {
     width: 100px;
     height: 10px;
-    top: 63%;
+    top: 76%;
     left: 0.5%;
     transform: rotate(-60deg);
     border-inline: none;
@@ -114,7 +134,7 @@ body {
 .right-leg {
     width: 100px;
     height: 10px;
-    top: 63%;
+    top: 76%;
     left: 32.5%;
     transform: rotate(60deg);
     border-inline: none;
