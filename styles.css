@@ -1,0 +1,44 @@
+:root {
+    --primary-color: #2442a3;
+    --primary-color-dark: #1c3483;
+    --primary-background-color: #eee;
+}
+
+body {
+    background-color: var(--primary-background-color);
+    margin: 0;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+.hangman {
+
+    /* Temporary for development */
+    border: 1px dashed red;
+}
+
+.shape {
+    border: 6px solid black;
+}
+
+.top {
+    width: 160px;
+    height: 40px;
+    border-bottom: none;
+}
+
+.stem {
+    width: 30px;
+    height: 350px;
+    border-block: none;
+    border-left: none;
+}
+
+.base {
+    width: 300px;
+    height: 30px;
+    border-inline: none;
+    border-bottom: none;
+}
