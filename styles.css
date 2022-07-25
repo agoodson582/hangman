@@ -35,15 +35,6 @@ label {
     margin-bottom: 5px;
 }
 
-.selected-word {
-    letter-spacing: 10px;
-    margin-bottom: 45px;
-}
-
-.guess-prompt {
-    margin-bottom: 40px;
-}
-
 .shape {
     border: 6px solid black;
 }
@@ -140,4 +131,22 @@ label {
     transform: rotate(60deg);
     border-inline: none;
     border-bottom: none;
+}
+
+.selected-word {
+    letter-spacing: 10px;
+    margin-bottom: 45px;
+}
+
+.guess-prompt {
+    margin-bottom: 40px;
+}
+
+.guess-list {
+    padding: 0;
+}
+
+.guess-list > li {
+    margin-block: 5px;
+    list-style: none;
 }
