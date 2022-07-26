@@ -1,5 +1,9 @@
 import words from "./words.js";
 
+// HTML content templates
+const winElement = '<h1>Congratulations! You win!</h1>';
+const loseElement = '<h1>You lost...</h1>'
+
 // Regular expressions for validating inputs
 const hasDigit = /\d/;
 
@@ -82,11 +86,19 @@ function replaceLetters(string, locations, letter) {
 function win() {
     // TODO: Complete win() function
     console.log('KAZUYA MISHIMA WINS');
+
+    endGame();
+    document.querySelector('.selected-word').insertAdjacentHTML('afterend', winElement);
 }
 
 function wrong() {
     // TODO: Complete wrong() function
     console.warn('WRONG!');
+}
+
+function endGame() {
+    guessTextBox.setAttribute('disabled', '');
+    submitButton.setAttribute('disabled', '');
 }
 
 // Input event listeners
@@ -112,8 +124,11 @@ function onSubmitClick() {
             wrong();
         }
     } else {
-        if (guess === wordToGuess) win();
-        else wrong();
+        // If a whole word is guessed
+        if (guess === wordToGuess) {
+            selectedWordArea.textContent = guess;
+            win();
+        } else wrong();
     }
     guessTextBox.value = '';
 }
