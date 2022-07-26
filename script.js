@@ -1,13 +1,15 @@
-import words from "./words.js";
-
 // HTML content templates
 const winContent = '<h1 id="win">Congratulations! You win!</h1>';
 const loseContent = '<h1 id="lose">You lost...</h1>'
 
-// Regular expressions for validating inputs
+// Regular expressions for assigning dashes and validating inputs
+const hasLetter = /[A-Z]|[a-z]/;
 const hasDigit = /\d/;
 
 // Variable declarations
+/**
+ * @type {string}
+ */
 var wordToGuess;
 
 // Element references
@@ -20,7 +22,7 @@ let guessList = document.querySelector('.guess-list');
 
 // Event listeners
 submitButton.addEventListener('click', onSubmitClick);
-guessTextBox.addEventListener('keydown', onEnterPressed);
+guessTextBox.addEventListener('keydown', onEnterPress);
 
 setupGame();
 
@@ -36,13 +38,40 @@ function setupGame() {
 
     // Select a random word for the player to guess
     wordToGuess = words[Math.floor(Math.random() * words.length)];
-    selectedWordArea.innerHTML = '_'.repeat(wordToGuess.length);
+    selectedWordArea.innerHTML = setupDashes(wordToGuess);
 
     console.log(`Word to guess: ${wordToGuess}`);
 }
 
+function setupDashes(word) {
+    let selectedWordString = '';
+    for (const char of word) {
+        selectedWordString += hasLetter.test(char) ? '_' : char;
+    }
+
+    return selectedWordString;
+}
+
 function isValidInput(value) {
-    return !hasDigit.test(value);
+    if (!value.length) return false;
+    if (value.length === 1) {
+        return hasLetter.test(value);
+    } else {
+        return !hasDigit.test(value);
+    }
+}
+
+function isUniqueInput(value) {
+    if (value.length == 1 && selectedWordArea.textContent.includes(value)) {
+        return false;
+    }
+    for (prevGuess of guessList.children) {
+        if (prevGuess.textContent === value) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 /**
@@ -85,7 +114,6 @@ function replaceLetters(string, locations, letter) {
 }
 
 function wrong() {
-    // TODO: Complete wrong() function
     console.warn('WRONG!');
 
     for (const piece of pieces) {
@@ -130,13 +158,35 @@ function allRevealed(piece) {
 
 // Input event listeners
 function onSubmitClick() {
-    let guess = guessTextBox.value;
+    let guess = guessTextBox.value.toLowerCase().trim();
     console.log(`guess: ${guess}`);
+
+    try {
+        document.getElementById('invalid-input').remove();
+    } catch {}
+
+    if (!isValidInput(guess)) {
+        let invalidContent = guess.length === 1 ?
+            'Make sure your single-letter guess is only a letter (from a-z).' :
+            'Make sure your word guess has no numbers.';
+        invalidContent = !guess.length ? 'Please type a letter or try to guess the whole word.' : invalidContent;
+        submitButton.insertAdjacentHTML('afterend',
+            `<p id="invalid-input">${invalidContent} Please try again.</p>`
+        );
+        return;
+    }
+
+    if (!isUniqueInput(guess)) {
+        submitButton.insertAdjacentHTML('afterend',
+            '<p id="invalid-input">You already submitted that letter/word. Please guess something else.</p>'
+        );
+        return;
+    }
 
     // Make sure guess-history div is visible first
     guessHistoryPanel.style.visibility = 'visible';
     
-    var guessItem = document.createElement('li');
+    let guessItem = document.createElement('li');
     guessItem.append(guess);
     guessList.appendChild(guessItem);
 
@@ -160,7 +210,7 @@ function onSubmitClick() {
     guessTextBox.value = '';
 }
 
-function onEnterPressed(keyEvent) {
+function onEnterPress(keyEvent) {
     if (keyEvent.keyCode === 13) {
         submitButton.click();
     }
