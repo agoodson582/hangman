@@ -1,8 +1,8 @@
 import words from "./words.js";
 
 // HTML content templates
-const winElement = '<h1>Congratulations! You win!</h1>';
-const loseElement = '<h1>You lost...</h1>'
+const winContent = '<h1 id="win">Congratulations! You win!</h1>';
+const loseContent = '<h1 id="lose">You lost...</h1>'
 
 // Regular expressions for validating inputs
 const hasDigit = /\d/;
@@ -11,6 +11,7 @@ const hasDigit = /\d/;
 var wordToGuess;
 
 // Element references
+let pieces = document.querySelector('.pieces').getElementsByClassName('shape');
 let guessTextBox = document.getElementById('guess-textbox');
 let submitButton = document.getElementById('submit');
 let selectedWordArea = document.querySelector('.selected-word');
@@ -28,10 +29,10 @@ setupGame();
 
 function setupGame() {
     // Hide person pieces and guess history
-    document.querySelectorAll('.pieces > *').forEach((piece) => {
-        piece.style.visibility = 'hidden';
-    });
-    document.querySelector('.guess-history').style.visibility = 'hidden';
+    Array.prototype.forEach.call(pieces, (piece) => {
+        piece.style.visibility = 'hidden'
+    })
+    guessHistoryPanel.style.visibility = 'hidden';
 
     // Select a random word for the player to guess
     wordToGuess = words[Math.floor(Math.random() * words.length)];
@@ -83,22 +84,48 @@ function replaceLetters(string, locations, letter) {
     return newString;
 }
 
-function win() {
-    // TODO: Complete win() function
-    console.log('KAZUYA MISHIMA WINS');
-
-    endGame();
-    document.querySelector('.selected-word').insertAdjacentHTML('afterend', winElement);
-}
-
 function wrong() {
     // TODO: Complete wrong() function
     console.warn('WRONG!');
+
+    for (const piece of pieces) {
+        if (piece.style.visibility === 'hidden') {
+            piece.style.visibility = 'visible';
+            break;
+        }
+    }
+    
+    if (Array.prototype.every.call(pieces, allRevealed)) {
+        endGame(false);
+    }
 }
 
-function endGame() {
+/**
+ * End the game and change the UI depending on whether the player wins or loses.
+ * 
+ * @param {boolean} playerWin Did the player win or lose?
+ */
+function endGame(playerWin) {
     guessTextBox.setAttribute('disabled', '');
     submitButton.setAttribute('disabled', '');
+    document.querySelector('label').style.display = 'none';
+
+    if (playerWin) {
+        console.log('KAZUYA MISHIMA WINS');
+        selectedWordArea.insertAdjacentHTML('afterend', winContent);
+        document.getElementById('win').insertAdjacentHTML('afterend',
+            `<p><em>Reload the page to play again!</em></p>`
+        );
+    } else { // player lost
+        selectedWordArea.insertAdjacentHTML('afterend', loseContent);
+        document.getElementById('lose').insertAdjacentHTML('afterend',
+        `<p>The word you were trying to guess was <strong>${wordToGuess}</strong>.</p>`
+        );
+    }
+}
+
+function allRevealed(piece) {
+    return piece.style.visibility === 'visible';
 }
 
 // Input event listeners
@@ -118,7 +145,7 @@ function onSubmitClick() {
             let locations = locateLetters(guess, wordToGuess);
             selectedWordArea.textContent = replaceLetters(selectedWordArea.textContent, locations, guess);
             if (selectedWordArea.textContent === wordToGuess) {
-                win();
+                endGame(true);
             }
         } else {
             wrong();
@@ -127,7 +154,7 @@ function onSubmitClick() {
         // If a whole word is guessed
         if (guess === wordToGuess) {
             selectedWordArea.textContent = guess;
-            win();
+            endGame(true);
         } else wrong();
     }
     guessTextBox.value = '';
