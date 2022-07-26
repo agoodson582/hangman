@@ -1,12 +1,13 @@
+// No words should contain numbers
+
 const words = [
-    "test",
-    "cool",
     "spider",
     "guitar",
     "watermelon",
     "accordion",
     "beach",
-    "banana"
+    "banana",
+    "long-term",
+    "football",
+    "measuring cup",
 ];
-
-export default words;
