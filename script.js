@@ -43,6 +43,25 @@ function setupGame() {
     console.log(`Word to guess: ${wordToGuess}`);
 }
 
+function resetGame() {
+    guessTextBox.removeAttribute('disabled');
+    submitButton.removeAttribute('disabled');
+    document.querySelector('label').style.display = 'block';
+    document.getElementById('play-again').remove();
+    guessList.innerHTML = '';
+
+    try {
+        document.getElementById('win').remove();
+    } catch (e) {
+        if (e instanceof TypeError) {
+            document.getElementById('lose').remove();
+            document.getElementById('correct-word').remove();
+        }
+    }
+
+    setupGame();
+}
+
 function setupDashes(word) {
     let selectedWordString = '';
     for (const char of word) {
@@ -134,22 +153,23 @@ function wrong() {
  * @param {boolean} playerWin Did the player win or lose?
  */
 function endGame(playerWin) {
-    guessTextBox.setAttribute('disabled', '');
-    submitButton.setAttribute('disabled', '');
-    document.querySelector('label').style.display = 'none';
-
     if (playerWin) {
         console.log('KAZUYA MISHIMA WINS');
         selectedWordArea.insertAdjacentHTML('afterend', winContent);
-        document.getElementById('win').insertAdjacentHTML('afterend',
-            `<p><em>Reload the page to play again!</em></p>`
-        );
     } else { // player lost
         selectedWordArea.insertAdjacentHTML('afterend', loseContent);
         document.getElementById('lose').insertAdjacentHTML('afterend',
-        `<p>The word you were trying to guess was <strong>${wordToGuess}</strong>.</p>`
+        `<p id="correct-word">The word you were trying to guess was <strong>${wordToGuess}</strong>.</p>`
         );
     }
+
+    guessTextBox.setAttribute('disabled', '');
+    submitButton.setAttribute('disabled', '');
+    document.querySelector('label').style.display = 'none';
+    document.querySelector('.guess-prompt').insertAdjacentHTML('beforebegin',
+        '<button type="button" id="play-again">Play Again!</button>'
+    );
+    document.getElementById('play-again').addEventListener('click', resetGame);
 }
 
 function allRevealed(piece) {
